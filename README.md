@@ -1,5 +1,3 @@
-To create a README file explaining the features and usage of the code provided, you can follow the template below:
-
 # AthenaQueryExecutor
 
 AthenaQueryExecutor is a Python class that allows you to execute queries on Amazon Athena and retrieve the results as a Pandas DataFrame. This class utilizes the Boto3 library to interact with the Athena service.
