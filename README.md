@@ -81,9 +81,7 @@ else:
 
 ## Desenvolvimentos Futuros
 
-<<<<<<< HEAD
 - A atribuição dos tipos de coluna não está funcionando corretamente, especialmente com datas. Esse é um problema conhecido e será corrigido em desenvolvimentos futuros.
 - O parâmetro "database" não é ideal, pois podemos (
 =======
 The AthenaQueryExecutor class simplifies the process of executing queries on Amazon Athena and retrieving the results as a Pandas DataFrame. You can easily integrate this class into your data analysis workflows and leverage the power of Athena for querying large datasets stored in Amazon S3.
->>>>>>> 083094b1e7d197831f3977d5df1316b03b411b69
