@@ -29,7 +29,7 @@ class AthenaQueryExecutor:
         # Set the AWS region
         if region is None:
             region = input("Enter region:")    
-        self.region = 'us-east-1'
+        self.region = region
 
         # Create a session with the retrieved credentials and region
         self.session = boto3.Session(

@@ -1,87 +1,54 @@
-# AthenaQueryExecutor
+# Athena Query Executor
 
-AthenaQueryExecutor é uma classe em Python que permite executar consultas no Amazon Athena e recuperar os resultados como um Pandas DataFrame. Essa classe utiliza a biblioteca Boto3 para interagir com o serviço Athena.
-
-## Recursos
-
-- Executa consultas no Amazon Athena.
-- Recupera os resultados da consulta como um Pandas DataFrame.
-- Trata erros na execução da consulta e fornece mensagens de erro apropriadas.
+O Athena Query Executor é uma classe Python que fornece uma maneira conveniente de executar consultas no Amazon Athena e recuperar os resultados como um DataFrame do Pandas.
 
 ## Pré-requisitos
 
-Antes de usar a classe AthenaQueryExecutor, verifique se você possui os seguintes pré-requisitos:
+- Python 3.6 ou superior
+- AWS CLI instalado e configurado com credenciais válidas
 
-- Credenciais de conta da AWS com as permissões necessárias para acessar o Athena.
-- Python 3.x instalado em seu sistema.
-- Bibliotecas Python necessárias: botocore, boto3, time, pandas.
+## Instalação
+
+1. Clone o repositório ou faça o download do arquivo `athena_query_executor.py`.
+2. Instale as dependências necessárias executando o seguinte comando:
+
+   ```
+   pip install botocore boto3 pandas
+   ```
 
 ## Uso
 
-Siga as etapas abaixo para usar a classe AthenaQueryExecutor:
+1. Importe a classe `AthenaQueryExecutor` no seu script Python:
 
-1. Importe as bibliotecas necessárias:
-```python
-import botocore.session
-import boto3
-import time
-import pandas as pd
-```
+   ```python
+   from athena_query_executor import AthenaQueryExecutor
+   ```
 
-2. Crie uma instância da classe AthenaQueryExecutor:
-```python
-query_executor = AthenaQueryExecutor()
-```
+2. Crie uma instância da classe `AthenaQueryExecutor`:
 
-3. Execute uma consulta:
-```python
-query = "SELECT * FROM sua_tabela"
-database = "seu_banco_de_dados"
-df = query_executor.execute_query(query, database)
-```
-- Substitua "sua_tabela" pelo nome da tabela que você deseja consultar.
-- Substitua "seu_banco_de_dados" pelo nome do banco de dados Athena que contém a tabela.
+   ```python
+   executor = AthenaQueryExecutor(output_location='<output_location>', region='<aws_region>')
+   ```
 
-4. Acesse os resultados da consulta:
-```python
-print(df.head())
-```
-- Isso imprimirá as primeiras linhas do DataFrame contendo os resultados da consulta.
+   - `output_location` (opcional): O local no bucket S3 onde os resultados da consulta serão armazenados. Se não for fornecido, será solicitado que o usuário informe o local de saída.
+   - `region` (opcional): A região da AWS onde o Athena está localizado. Se não for fornecido, será solicitado que o usuário informe a região.
 
-## Personalização
+3. Execute uma consulta chamando o método `execute_query`:
 
-Você pode personalizar o comportamento da classe AthenaQueryExecutor modificando os seguintes atributos:
+   ```python
+   query = "SELECT * FROM sua_tabela"
+   database = "seu_banco_de_dados"
 
-- `region`: Defina a região da AWS desejada para suas consultas Athena.
-- `OutputLocation`: Defina o bucket do S3 e o caminho onde os resultados da consulta devem ser armazenados.
+   result_df = executor.execute_query(query, database)
+   ```
 
-```python
-self.region = 'us-east-1'
-self.athena_client = self.session.client('athena')
-self.athena_client.start_query_execution(
-    QueryString=query,
-    QueryExecutionContext={'Database': database},
-    ResultConfiguration={'OutputLocation': 's3://seu-bucket/seu-caminho'}
-)
-```
-- Substitua "us-east-1" pelo código da região da AWS desejada.
-- Substitua "seu-bucket/seu-caminho" pelo bucket do S3 e caminho onde você deseja armazenar os resultados da consulta.
+   - `query`: A consulta SQL a ser executada.
+   - `database`: O nome do banco de dados do Athena onde a consulta será executada.
 
-## Tratamento de Erros
+4. Utilize o DataFrame `result_df` do Pandas para processar e analisar os resultados da consulta.
 
-A classe AthenaQueryExecutor fornece tratamento de erros para falhas na execução da consulta. Se uma consulta falhar ou for cancelada, uma mensagem de erro apropriada será exibida.
+## Desenvolvimento Futuro
 
-```python
-if status == 'SUCCEEDED':
-    # Processar os resultados da consulta
-else:
-    error_message = response['QueryExecution']['Status']['StateChangeReason']
-    print("A execução da consulta falhou ou foi cancelada. Mensagem de erro: ", error_message)
-```
-
-## Desenvolvimentos Futuros
-
-- A atribuição dos tipos de coluna não está funcionando corretamente, especialmente com datas. Esse é um problema conhecido e será corrigido em desenvolvimentos futuros.
-- O parâmetro "database" não é ideal, pois podemos (
-=======
-The AthenaQueryExecutor class simplifies the process of executing queries on Amazon Athena and retrieving the results as a Pandas DataFrame. You can easily integrate this class into your data analysis workflows and leverage the power of Athena for querying large datasets stored in Amazon S3.
+- Melhoria na detecção de datas: A versão atual do `AthenaQueryExecutor` não possui detecção avançada de datas. Em versões futuras, a detecção de tipos de dados para datas será aprimorada.
+- Execução de várias consultas de uma vez: Em versões futuras, a opção de executar várias consultas de uma só vez será adicionada.
+- Certifique-se de fornecer as informações necessárias, como a localização de saída e a região da AWS, ao criar uma instância da classe `AthenaQueryExecutor`.
