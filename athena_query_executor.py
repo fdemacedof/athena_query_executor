@@ -4,7 +4,7 @@ import time
 import pandas as pd
 
 class AthenaQueryExecutor:
-    def __init__(self):
+    def __init__(self, output_location=None, region=None):
         # Create a botocore session to load the credentials file
         self.botocore_session = botocore.session.Session()
 
@@ -21,7 +21,14 @@ class AthenaQueryExecutor:
         self.access_key = self.credentials.access_key
         self.secret_key = self.credentials.secret_key
 
+        if output_location is None:
+            # Ask the user to enter the output location
+            output_location = input("Enter the output location: ")
+        self.output_location = output_location
+
         # Set the AWS region
+        if region is None:
+            region = input("Enter region:")    
         self.region = 'us-east-1'
 
         # Create a session with the retrieved credentials and region
@@ -43,8 +50,7 @@ class AthenaQueryExecutor:
                 'Database': database
             },
             ResultConfiguration={
-                'OutputLocation': 's3://smiles-datahub-sandbox-prd/redesign/tmp'
-                ### testar s3://aws-athena-query-results-774515094505-us-east-1
+                'OutputLocation': self.output_location
             }
         )
 
